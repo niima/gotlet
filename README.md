@@ -136,3 +136,7 @@ To run on a linux server or a linux pipeline runner:
 ```
 GOOS=linux GOARCH=amd64 go build -o gotlet-amd64-linux main.go
 ```
+
+### TODO:
+- Increase test coverage
+- Better YAML validation
