@@ -1,0 +1,11 @@
+variables:
+  service_name: nginx
+  version: 2
+  component: front-end
+  port: 80
+  frontend_max_replicas: 3
+  frontend_image: "nginx:latest"
+  environment_variables:
+    environment: production
+    api_url: "https://api.url.com"
+    project_name: website

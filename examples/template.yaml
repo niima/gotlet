@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.service_name}}-{{.component}}-{{.version}}
+  labels:
+    app: {{.service_name}}
+    component: {{.component}}
+    version: {{.version}}
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 2
+      maxSurge: {{ .frontend_max_replicas }}
+    spec:
+      containers:
+        - name: {{.service_name}}
+          image: {{.frontend_image}}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: {{.ops_port}}
+          env: {{range $key, $value := .environment_variables}}
+            - name: {{ $key }}
+              value: {{ $value }} {{end}} 
