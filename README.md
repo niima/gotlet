@@ -25,12 +25,12 @@ ___
   │       └── Dockerfile 
   └── variables     
           ├── 
-          ├── kubernetes--templateest.yaml
+          ├── kubernetes-test.yaml
           ├── kubernetes-acceptance.yaml
-          ├── kubernetes--varsfileroduction.yaml
-          ├── Dockerfile--templateest.yaml
+          ├── kubernetes-production.yaml
+          ├── Dockerfile-test.yaml
           ├── Dockerfile-acceptance.yaml
-          └── Dockerfile--varsfileroduction.yaml
+          └── Dockerfile-production.yaml
 ```
 ___
 
@@ -88,7 +88,7 @@ ___
 
 ## Template file
 
-  > The template file is a file in which you want some fields substituded with variables, in this case, the application works based on the go template engine, which we will have a small series of samples below. You can find the full go templating engine reference [here]((https://pkg.go.dev/text/template))
+  > **Note**: The template file is a file in which you want some fields substituded with variables, in this case, the application works based on the go template engine, which we will have a small series of samples below. You can find the full go templating engine reference [here]((https://pkg.go.dev/text/template))
   ___
   ### **Template engine reference**
 
@@ -113,7 +113,7 @@ ___
         value: {{ $value }} 
   {{end}}
   ```
-  > Read more about go templating engine in [Official Go Documents, Template Engine Reference](https://pkg.go.dev/text/template)
+  > **Note**: Read more about go templating engine in [Official Go Documents, Template Engine Reference](https://pkg.go.dev/text/template)
 ___
   ## **Variables**
 
@@ -164,7 +164,7 @@ ___
       ```
   - And for having the output in STDOUT, you don't need to do anything, just remove the --output flag. 
 
-> For further CLI Usage, see the section below
+> **Note**: For further CLI Usage, see the section below
 ___
 # Command Line Flags Usage
 - `-h` or `--help` Prints the usage request. 
@@ -172,6 +172,7 @@ ___
 - `--varsfile` **(optional)** Path to the variables file (optional, if not specified you have only environment variables to include).
 - `--envprefix` **(technically optional, logically, please provide a value)** Prefix for filtering which env variables to include. **(recommended if you're using environment variables for populating templates)** 
 - `--output` **(optional)** Output file path, if a file name is not provided, the results will be printed in stdout.
+- `--stdout` **(optional)** If this flag is passed as an argument, the program will print the results in stdout as well, this flag may be used in combination with a file output, so you would have the results both in a file and the stdout.
 
 ## Example Command Line usage:
 ```
@@ -195,7 +196,7 @@ In this example, we're going to:
 
 > **Note**: The files we're going to use in the example below can be found in [the examples directory in this repo](./examples/)
 
-> Note that variables root element is required and MUST be `variables`
+> **Note**: that variables root element is required and MUST be `variables`
 ___
 #### Step **1** : creating a `variables.yaml` file.
 you can define the variables under `variables` obviously
@@ -300,5 +301,5 @@ ___
 - [ ] Change the flag package to cobra for better subcommand support (e.g. the per-file validation).
 - [ ] Add a mechanism that excludes sensitive environment variables such as AWS/GCP, etc keys from imports by default.
 - [ ] Simple and efficient docker images with GCP SDK / AWS CLI installed.
-- [ ] Also add a flag that prints the output to STDOUT.
+- [X] Also add a flag that prints the output to STDOUT.
 - [ ] Convert the readme commandline usage section into a table.

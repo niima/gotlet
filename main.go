@@ -19,24 +19,25 @@ func main() {
 	envPrefix := flag.String("envprefix", "", "Prefix of the OS environment variables you want to use during templating, if none are provided, all of the environment variables will be imported")
 	variablesFile := flag.String("varsfile", "", "Path to the file containing the variables in YAML format, if none are provided, template rendering will fall back to environment variables")
 	outputFile := flag.String("output", "", "Path to the the file in which the rendered template will be stored in, defaults to stdout if no file name is provided.")
+	stdOut := flag.Bool("stdout", false, "Output the results in stdout.")
 
 	flag.Parse()
 
-	// Exit with error code 2 (invalid usage of shell command)
+	// If no argument is provided to the CLI interface, show help and exit with code 0.
 	if len(os.Args[1:]) <= 0 {
 		flag.Usage()
-		os.Exit(2)
+		os.Exit(0)
 	}
 
 	// Exit with error code 2 (invalid usage of shell command)
 	if *templateFile == "" {
-		fmt.Println(colors.Red + "- The template file path is required, use -t flag")
+		fmt.Println(colors.Red, "\n Error: A template file path is required, use the --template flag", colors.Reset)
 		os.Exit(2)
 	}
 
 	if *envPrefix == "" {
-		fmt.Println(colors.Yellow, "- No env variable prefix specified, loading all env variables.\n"+
-			"This is not recommended, use -p flag to specify", colors.Reset)
+		fmt.Println(colors.Yellow, "\nWarning: No environment variable prefix has been specified, loading all environment variables.\n"+
+			"\t This is not recommended, use the --envprefix flag to specify a prefix, to read more refer to the documentation.", colors.Reset)
 	}
 
 	data := &Model{
@@ -63,7 +64,10 @@ func main() {
 			fmt.Println(err)
 			os.Exit(1)
 		}
-	} else {
+	}
+
+	// If no file name is provided or stdout flag is set, print the results in stdout.
+	if *outputFile == "" || *stdOut {
 		fmt.Println(string(result))
 	}
 }
